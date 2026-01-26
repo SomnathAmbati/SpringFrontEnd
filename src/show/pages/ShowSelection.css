@@ -1,0 +1,197 @@
+/* Show Selection Wrapper */
+.show-selection-wrapper {
+  transition: filter 0.3s ease;
+}
+
+.show-selection-wrapper.modal-open {
+  filter: blur(2px);
+  pointer-events: none;
+}
+
+/* Movie Header */
+.movie-header-card {
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  border: 1px solid #e0e0e0;
+}
+
+.movie-poster {
+  width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.movie-title {
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 0.5rem;
+}
+
+.movie-details {
+  font-size: 0.95rem;
+  color: #6b7280;
+  margin-bottom: 0.75rem;
+}
+
+.detail-item {
+  display: inline-block;
+}
+
+.separator {
+  margin: 0 8px;
+  color: #9ca3af;
+}
+
+.censor-badge {
+  display: inline-block;
+  background-color: #f3f4f6;
+  color: #4b5563;
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  border: 1px solid #d1d5db;
+}
+
+.movie-info-icon {
+  display: inline-block;
+  margin-left: 10px;
+  color: #9ca3af;
+  cursor: pointer;
+}
+
+/* Theatre and Show Times Container */
+.shows-container {
+  margin-top: 20px;
+}
+
+.theatre-show-row {
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb;
+}
+
+/* Theatre Info Card */
+.theatre-info-card {
+  display: flex;
+  align-items: flex-start;
+  padding: 20px;
+  background: #fafafa;
+  border-right: 1px solid #e5e7eb;
+  height: 100%;
+  min-height: 120px;
+  position: relative;
+}
+
+.theatre-icon {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  background: white;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 12px;
+  color: #6366f1;
+  border: 1px solid #e5e7eb;
+}
+
+.theatre-details {
+  flex: 1;
+}
+
+.theatre-name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 4px;
+}
+
+.theatre-location {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin: 0;
+}
+
+.info-icon {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  color: #9ca3af;
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+/* Show Times Card */
+.show-times-card {
+  padding: 20px;
+  background: white;
+  min-height: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.show-times-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.show-time-btn {
+  padding: 10px 20px;
+  border: 2px solid #fbbf24;
+  background: white;
+  color: #92400e;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 100px;
+  text-align: center;
+}
+
+.show-time-btn:hover {
+  background: #fef3c7;
+  border-color: #f59e0b;
+  transform: translateY(-1px);
+}
+
+.show-time-btn:active {
+  transform: translateY(0);
+}
+
+.cancellation-text {
+  font-size: 0.85rem;
+  color: #6b7280;
+  margin-top: 8px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .theatre-info-card {
+    border-right: none;
+    border-bottom: 1px solid #e5e7eb;
+    min-height: auto;
+  }
+
+  .show-times-wrapper {
+    justify-content: flex-start;
+  }
+
+  .show-time-btn {
+    min-width: auto;
+    flex: 0 0 calc(50% - 6px);
+  }
+
+  .movie-title {
+    font-size: 1.5rem;
+  }
+}
