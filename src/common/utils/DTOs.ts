@@ -6,13 +6,6 @@ export interface TheatreDTO {
   location: string;
 }
 
-export interface ShowDTO {
-  id: number;
-  movieId: number;
-  theatre: TheatreDTO;
-  showTime: string; // ISO date string
-}
-
 export interface SeatDTO {
   id: number;
   seatNumber: string;
@@ -35,6 +28,7 @@ export interface MovieDTO {
 
 export interface Show {
   id: number;
+  movie: MovieDTO;
   theatre: TheatreDTO;
   showTime: string;
 }

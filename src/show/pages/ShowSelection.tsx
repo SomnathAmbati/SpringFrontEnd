@@ -5,6 +5,7 @@ import { MovieDTO as MovieSummary, Show } from "../../common/utils/DTOs";
 import "./ShowSelection.css";
 import SeatCountModal from "../../seat/pages/SeatCountModal";
 import SeatSelection from "../../seat/pages/SeatSelection";
+import SeatSelectionBackground from "../../seat/pages/SeatSelectionBackground";
 
 // const ShowSelection = () => {
 //   const { movieId } = useParams();
@@ -134,7 +135,6 @@ import SeatSelection from "../../seat/pages/SeatSelection";
 
 // export default ShowSelection;
 
-
 const ShowSelection = () => {
   const { movieId } = useParams();
   const navigate = useNavigate();
@@ -171,10 +171,17 @@ const ShowSelection = () => {
   const handleProceedToSeats = (seatCount: number) => {
     setRequiredSeats(seatCount);
     setShowModal(false);
-    // Give a small delay for modal to close, then navigate
+    
+    // Store in localStorage as backup
+    if (selectedShowId) {
+      localStorage.setItem(`requiredSeats_${selectedShowId}`, seatCount.toString());
+    }
+    
+    // Give a small delay for modal to close, then navigate with state
     setTimeout(() => {
-      // navigate(`/seat-selection/${selectedShowId}?seats=${seatCount}`);
-            navigate(`/seats/${selectedShowId}}`);
+      navigate(`/seats/${selectedShowId}`, {
+        state: { requiredSeats: seatCount }
+      });
     }, 300);
   };
 
@@ -250,8 +257,8 @@ const ShowSelection = () => {
                   <div className="col-md-8">
                     <div className="show-times-card">
                       <h6 className="py-2 my-n1 text-secondary fw-normal">
-                      Show Timings
-                    </h6>
+                        Show Timings
+                      </h6>
                       <div className="show-times-wrapper">
                         {shows.map((show) => {
                           const showDate = new Date(show.showTime);
@@ -283,7 +290,7 @@ const ShowSelection = () => {
 
       {/* SEAT SELECTION IN BACKGROUND - Loads when modal opens */}
       {selectedShowId && showModal && (
-        <SeatSelection
+        <SeatSelectionBackground
           showId={selectedShowId} 
           requiredSeats={requiredSeats}
         />

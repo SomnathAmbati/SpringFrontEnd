@@ -1,0 +1,22 @@
+.booking-summary-container {
+  max-width: 500px;
+}
+
+.booking-info-card {
+  border-radius: 12px;
+}
+
+.price-card {
+  border-radius: 12px;
+}
+
+.price-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.price-row.total {
+  font-weight: bold;
+  font-size: 1.1rem;
+}

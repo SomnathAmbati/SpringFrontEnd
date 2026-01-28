@@ -1,4 +1,4 @@
-import { MovieDTO as MovieSummary, Show } from "../../common/utils/DTOs";
+import { MovieDTO as MovieSummary, SeatDTO, Show } from "../../common/utils/DTOs";
 import api from "../../common/utils/api";
 
 export const getMovieSummary = async (movieId: number): Promise<MovieSummary> => {
@@ -12,4 +12,3 @@ export const getShowsByMovie = async (movieId: number): Promise<Show[]> => {
   });
   return res.data;
 };
-

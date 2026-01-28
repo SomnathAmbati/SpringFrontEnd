@@ -1,5 +1,5 @@
 import api from "../../common/utils/api";
-import { SeatDTO, ShowDTO } from "../../common/utils/DTOs";
+import { SeatDTO, Show as ShowDTO } from "../../common/utils/DTOs";
 
 
 export const getSeatsByShow = async (showId: number): Promise<SeatDTO[]> => {

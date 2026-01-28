@@ -1,0 +1,277 @@
+.seat-background-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #f9fafb;
+  z-index: 1039; /* Below modal (1050) but above backdrop (1040) */
+  overflow-y: auto;
+  padding-bottom: 100px;
+}
+
+/* Loading State */
+.seat-background-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.background-spinner {
+  width: 48px;
+  height: 48px;
+  border: 4px solid #e5e7eb;
+  border-top-color: #ef4444;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+/* Header */
+.seat-bg-header {
+  background: white;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #e5e7eb;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.show-info-bg h5 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0;
+}
+
+.show-info-bg p {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin: 4px 0 0 0;
+}
+
+.ticket-count-bg {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: #fef3c7;
+  border-radius: 8px;
+  border: 1px solid #fbbf24;
+  font-weight: 600;
+  color: #92400e;
+  font-size: 0.875rem;
+}
+
+.ticket-icon {
+  font-size: 1.25rem;
+}
+
+/* Show Time Tabs */
+.show-time-tabs-bg {
+  display: flex;
+  gap: 12px;
+  padding: 16px 20px;
+  background: white;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.time-tab-bg {
+  padding: 8px 20px;
+  border: 2px solid #e5e7eb;
+  background: white;
+  border-radius: 6px;
+  font-weight: 500;
+  color: #6b7280;
+  cursor: default;
+  transition: all 0.2s;
+  font-size: 0.875rem;
+}
+
+.time-tab-bg.active {
+  border-color: #fbbf24;
+  background: #fef3c7;
+  color: #92400e;
+}
+
+/* Screen */
+.screen-container-bg {
+  padding: 40px 20px 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.screen-bg {
+  width: 80%;
+  max-width: 600px;
+  padding: 12px;
+  background: linear-gradient(180deg, #e5e7eb 0%, #f3f4f6 100%);
+  text-align: center;
+  border-radius: 0 0 50% 50%;
+  font-weight: 600;
+  color: #6b7280;
+  letter-spacing: 4px;
+  font-size: 0.875rem;
+  border: 2px solid #d1d5db;
+  border-top: none;
+}
+
+/* Seat Layout */
+.seat-layout-bg {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.seat-type-divider-bg {
+  text-align: center;
+  padding: 16px 0 12px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #6b7280;
+  border-top: 1px solid #e5e7eb;
+  margin-top: 16px;
+}
+
+.seat-row-container-bg {
+  margin-bottom: 8px;
+}
+
+.seat-row-bg {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  justify-content: center;
+}
+
+.row-label-bg {
+  min-width: 30px;
+  font-weight: 600;
+  color: #6b7280;
+  font-size: 0.875rem;
+}
+
+.seats-bg {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.seat-bg {
+  width: 36px;
+  height: 36px;
+  border: 2px solid #10b981;
+  background: white;
+  color: #10b981;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: all 0.2s;
+}
+
+.seat-bg.bestseller {
+  border-color: #fbbf24;
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.seat-bg.bestseller::before {
+  content: "📦";
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  font-size: 0.625rem;
+}
+
+.seat-bg.selected {
+  background: #10b981;
+  color: white;
+  border-color: #059669;
+}
+
+.seat-bg.booked {
+  background: #d1d5db;
+  border-color: #9ca3af;
+  color: #6b7280;
+}
+
+/* Legend */
+.seat-legend-bg {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  padding: 24px 20px;
+  background: white;
+  border-top: 1px solid #e5e7eb;
+  flex-wrap: wrap;
+}
+
+.legend-item-bg {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.legend-box-bg {
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  border: 2px solid;
+}
+
+.bestseller-box-bg {
+  border-color: #fbbf24;
+  background: #fef3c7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+}
+
+.available-box-bg {
+  border-color: #10b981;
+  background: white;
+}
+
+.selected-box-bg {
+  border-color: #059669;
+  background: #10b981;
+}
+
+.sold-box-bg {
+  border-color: #9ca3af;
+  background: #d1d5db;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .seat-bg-header {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .show-info-bg {
+    flex: 1;
+  }
+
+  .ticket-count-bg {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .seat-bg {
+    width: 32px;
+    height: 32px;
+    font-size: 0.7rem;
+  }
+}

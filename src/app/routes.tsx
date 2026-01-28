@@ -22,7 +22,7 @@ export default function AppRoutes() {
       {/* PROTECTED (guest not allowed) */}
       <Route element={<GuestRoute />}>
         <Route path="/shows/:movieId" element={<ShowSelection />} />
-        {/* <Route path="/seats/:showId" element={<SeatSelection />} /> */}
+        <Route path="/seats/:showId" element={<SeatSelection />} />
         <Route path="/booking/summary" element={<BookingSummary /> } />
         <Route path="/payment" element={<PaymentPage />} />
         <Route path="/my-bookings" element={<BookingHistory />} />
