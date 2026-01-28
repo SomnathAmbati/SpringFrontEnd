@@ -1,18 +1,20 @@
-import { useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { SeatDTO, Show } from "../../common/utils/DTOs";
 import "./BookingSummary.css";
 import { getBookingSummaryData } from "../service/BookingService";
+import api from "../../common/utils/api";
 
 const CONVENIENCE_FEE_PER_TICKET = 30;
 const GST_PERCENT = 18;
 
-const BookingSummary = () => {
+const BookingSummary:FC = () => {
   const [params] = useSearchParams();
   const navigate = useNavigate();
 
   const showId = Number(params.get("showId"));
   const seatIds = params.get("seats")?.split(",").map(Number) || [];
+  console.log(showId, "  ->  " , seatIds);
 
   const [show, setShow] = useState<Show | null>(null);
   const [seats, setSeats] = useState<SeatDTO[]>([]);
@@ -47,16 +49,25 @@ const BookingSummary = () => {
   const gst = ((seatTotal + convenienceFee) * GST_PERCENT) / 100;
   const grandTotal = seatTotal + convenienceFee + gst;
 
-  const handlePay = () => {
-    navigate("/payment", {
-      state: {
+  const handlePay = async () => {
+    try {
+      const res = await api.post("/bookings", {
         showId,
-        seatIds,
-        amount: grandTotal
-      }
-    });
+        seatIds
+      });
+  
+      navigate("/payment", {
+        state: {
+          bookingId: res.data.id,
+          totalAmount: grandTotal
+        }
+      });
+    } catch (err) {
+      alert("Failed to create booking");
+      console.log(err);
+    }
   };
-
+    
   if (error) {
     return <div className="alert alert-danger mt-5 text-center">{error}</div>;
   }
@@ -125,3 +136,6 @@ const BookingSummary = () => {
 };
 
 export default BookingSummary;
+
+
+

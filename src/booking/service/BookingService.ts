@@ -1,5 +1,5 @@
-import axios from "axios";
 import { Show, SeatDTO } from "../../common/utils/DTOs";
+import api from "../../common/utils/api";
 
 export const getBookingSummaryData = async (
   showId: number,
@@ -7,8 +7,8 @@ export const getBookingSummaryData = async (
 ): Promise<{ show: Show; seats: SeatDTO[] }> => {
 
   const [showRes, seatsRes] = await Promise.all([
-    axios.get<Show>(`/shows/${showId}`),
-    axios.get<SeatDTO[]>(`/seats/by-ids`, {
+    api.get<Show>(`/shows/${showId}`),
+    api.get<SeatDTO[]>(`/seats/by-ids`, {
       params: { ids: seatIds.join(",") }
     })
   ]);
