@@ -178,13 +178,13 @@ const SeatCountModal = ({ showId, movieId, onClose, onProceed }: SeatCountModalP
                     {getSeatStatus(seatTypeStats.REGULAR.available, seatTypeStats.REGULAR.total).text}
                   </div>
                 </div>
-                <div className="price-card">
+                {/* <div className="price-card">
                   <div className="price-label">EXECUTIVE</div>
                   <div className="price-amount">₹{seatTypeStats.RECLINER.price}</div>
                   <div className={`price-status ${getSeatStatus(seatTypeStats.RECLINER.available, seatTypeStats.RECLINER.total).class}`}>
                     {getSeatStatus(seatTypeStats.RECLINER.available, seatTypeStats.RECLINER.total).text}
                   </div>
-                </div>
+                </div> */}
                 <div className="price-card">
                   <div className="price-label">PREMIUM</div>
                   <div className="price-amount">₹{seatTypeStats.PREMIUM.price}</div>
@@ -198,7 +198,7 @@ const SeatCountModal = ({ showId, movieId, onClose, onProceed }: SeatCountModalP
             {/* Bestseller Note - Only if seats available */}
             {availableSeatsCount > 0 && (
               <div className="bestseller-note">
-                Book the 📦 Bestseller Seats in this cinema at no extra cost!
+                Book the 📦 seats you love -- no extra charges!
               </div>
             )}
 

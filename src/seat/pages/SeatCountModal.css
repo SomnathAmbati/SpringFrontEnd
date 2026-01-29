@@ -113,20 +113,40 @@
 }
 
 /* Seat Pricing */
-.seat-pricing {
+/* .seat-pricing {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
+  justify-items: center;
   gap: 12px;
+  margin-bottom: 24px;
+} */
+ 
+/* Seat Pricing */
+.seat-pricing {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 160px));
+  justify-content: center;   /* ⭐ centers the cards */
+  gap: 16px;
   margin-bottom: 24px;
 }
 
 .price-card {
   text-align: center;
+  padding: 16px 12px;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  background: #fafafa;
+  min-width: 140px;
+}
+
+
+/* .price-card {
+  text-align: center;
   padding: 16px 8px;
   border: 1px solid #e5e7eb;
   border-radius: 8px;
   background: #fafafa;
-}
+} */
 
 .price-label {
   font-size: 0.75rem;

@@ -199,28 +199,43 @@ const ShowSelection = () => {
         <div className="container mt-4 mb-5">
           {/* MOVIE HEADER */}
           <div className="movie-header-card shadow-sm mb-4">
-            <div className="row align-items-center">
-              <div className="col-md-2 col-sm-3">
+            <div className="row align-items-center g-3">
+              
+              {/* Poster */}
+              <div className="col-md-2 col-sm-3 col-4">
                 <img
                   src={movie.imageUrl}
                   alt={movie.name}
-                  className="movie-poster"
+                  className="movie-poster-small"
                 />
               </div>
-              <div className="col-md-10 col-sm-9">
-                <h2 className="movie-title mb-2">{movie.name}</h2>
-                <div className="movie-details mb-2">
-                  <span className="detail-item">{movie.genre}</span>
-                  <span className="separator">•</span>
-                  <span className="detail-item">{movie.language}</span>
+
+                {/* Movie Info */}
+                <div className="col-md-10 col-sm-9 col-8">
+                  <h2 className="movie-title mb-1">{movie.name}</h2>
+
+                  <div className="movie-details mb-2">
+                    <span className="detail-item">{movie.genre}</span>
+                    <span className="separator">•</span>
+                    <span className="detail-item">{movie.language}</span>
+                  </div>
+
+                  <div className="movie-meta-row">
+                    <span className="censor-badge">{movie.censorRating}</span>
+
+                    <span className="rating-badge">
+                      ⭐ {movie.averageRating?.toFixed(1) ?? "N/A"}
+                    </span>
+
+                    <span className="movie-info-icon">
+                      <i className="bi bi-info-circle"></i>
+                    </span>
+                  </div>
                 </div>
-                <span className="censor-badge">{movie.censorRating}</span>
-                <div className="movie-info-icon">
-                  <i className="bi bi-info-circle"></i>
-                </div>
+
               </div>
             </div>
-          </div>
+
 
           {/* THEATRE AND SHOW TIMES */}
           <div className="shows-container">
