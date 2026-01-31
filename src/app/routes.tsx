@@ -7,6 +7,7 @@ import SeatSelection from "../seat/pages/SeatSelection";
 import BookingSummary from "../booking/pages/BookingSummary";
 import PaymentPage from "../payment/pages/PaymentPage";
 import BookingHistory from "../booking/pages/BookingHistory";
+import Ticket from "../payment/pages/Ticket";
 
 export default function AppRoutes() {
   return (
@@ -26,6 +27,8 @@ export default function AppRoutes() {
         <Route path="/booking/summary" element={<BookingSummary /> } />
         <Route path="/payment" element={<PaymentPage />} />
         <Route path="/my-bookings" element={<BookingHistory />} />
+        <Route path="/ticket" element={<Ticket />} />
+
       </Route>
 
     </Routes>

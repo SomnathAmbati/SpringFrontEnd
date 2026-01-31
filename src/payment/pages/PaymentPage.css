@@ -1,9 +1,10 @@
-html,body{
+
+/* html,body{
     height: 100%;
     margin: 0;
     padding: 0;
-    overflow:inherit ;
-}
+    overflow:hidden ;
+} */
 .payment-bg {
   min-height: 100vh;
   width: 100%;
@@ -82,5 +83,3 @@ html,body{
   border-radius: 8px;
   margin-bottom: 10px;
 }
-
-

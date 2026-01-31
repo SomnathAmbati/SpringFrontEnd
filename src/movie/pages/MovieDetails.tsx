@@ -44,10 +44,10 @@ const MovieDetails = () => {
   return (
     <div className="movie-details-wrapper">
       <div className="movie-details-container">
-        {/* Main Content Area */}
         <div className="main-content">
+
+          {/* LEFT: Poster + Rating bubble */}
           <div className="left-section">
-            {/* DIV-1: Movie Poster */}
             <div className="poster-box">
               <img
                 src={movie.imageUrl}
@@ -56,7 +56,6 @@ const MovieDetails = () => {
               />
             </div>
 
-            {/* DIV-2: Rating Section */}
             <div className="rating-wrapper">
               <div className="rating-box">
                 <div className="star-container">
@@ -82,7 +81,7 @@ const MovieDetails = () => {
             </div>
           </div>
 
-          {/* DIV-3: Movie Details */}
+          {/* RIGHT: Details + Book button at bottom */}
           <div className="details-section">
             <h1 className="movie-title">{movie.name}</h1>
             
@@ -123,14 +122,14 @@ const MovieDetails = () => {
                 <span className="info-content">{movie.releaseDate}</span>
               </div>
             </div>
-          </div>
-        </div>
 
-        {/* DIV-4: Book Ticket Button */}
-        <div className="booking-section">
-          <button className="book-btn" onClick={handleBooking}>
-            🎟️ Book Tickets
-          </button>
+            {/* Book button moved here — inside details-section */}
+            <div className="booking-section">
+              <button className="book-btn" onClick={handleBooking}>
+                🎟️ Book Tickets
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>

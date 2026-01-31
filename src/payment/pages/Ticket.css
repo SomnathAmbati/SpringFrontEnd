@@ -1,0 +1,55 @@
+.ticket-wrapper {
+  max-width: 800px;
+}
+
+.ticket-card {
+  border-radius: 16px;
+  border: none;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+}
+
+.ticket-header h3 {
+  letter-spacing: 1px;
+}
+
+.movie-name {
+  font-weight: 700;
+}
+
+.booking-id {
+  background: #f8f9fa;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.amount-paid {
+  background: #198754;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.ticket-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+/* PRINT STYLES */
+@media print {
+  body {
+    background: white;
+  }
+
+  .ticket-card {
+    box-shadow: none;
+    border: 1px dashed #000;
+  }
+
+  .d-print-none {
+    display: none !important;
+  }
+}

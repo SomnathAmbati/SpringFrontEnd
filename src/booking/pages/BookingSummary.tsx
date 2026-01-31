@@ -50,23 +50,32 @@ const BookingSummary:FC = () => {
   const grandTotal = seatTotal + convenienceFee + gst;
 
   const handlePay = async () => {
-    try {
-      const res = await api.post("/bookings", {
-        showId,
-        seatIds
-      });
-  
-      navigate("/payment", {
-        state: {
-          bookingId: res.data.id,
-          totalAmount: grandTotal
-        }
-      });
-    } catch (err) {
-      alert("Failed to create booking");
-      console.log(err);
-    }
-  };
+  try {
+    const res = await api.post("/bookings", {
+      showId,
+      seatIds
+    });
+    if(show === null) return <h1>Show not found</h1>;
+    navigate("/payment", {
+        
+      state: {
+        bookingId: res.data.id,
+        totalAmount: grandTotal,
+        // 🔽 PASS FULL CONTEXT
+        movieName: show.movie.name,
+        language: show.movie.language,
+        theatreName: show.theatre.name,
+        theatreLocation: show.theatre.location,
+        showTime: show.showTime,
+        seats: seats.map(s => s.seatNumber).join(", "),
+      }
+    });
+  } catch (err) {
+    alert("Failed to create booking");
+    console.log(err);
+  }
+};
+
     
   if (error) {
     return <div className="alert alert-danger mt-5 text-center">{error}</div>;

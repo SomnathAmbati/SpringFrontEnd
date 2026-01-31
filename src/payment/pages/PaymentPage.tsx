@@ -1,14 +1,23 @@
-import React, { useState } from "react";
-import { useLocation } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import "./PaymentPage.css";
 import api from "../../common/utils/api";
 
 const PaymentPage: React.FC = () => {
   const location = useLocation();
-  const totalAmount: number = location.state?.totalAmount || 0;
-  const bookingId: number = location.state?.bookingId;
+  const {
+  bookingId,
+  totalAmount,
+    movieName,
+    language,
+    theatreName,
+    theatreLocation,
+    showTime,
+    seats,
+  } = location.state || {};
 
-  const [paymentMode, setPaymentMode] = useState<"credit" | "debit" | "">("");
+
+  const [paymentMode, setPaymentMode] = useState<"credit" | "debit" | "">("credit");
 
   const [cardNumber, setCardNumber] = useState("");
   const [expiry, setExpiry] = useState("");
@@ -19,10 +28,17 @@ const PaymentPage: React.FC = () => {
   const [expiryError, setExpiryError] = useState("");
   const [cvvError, setCvvError] = useState("");
   const [nameError, setNameError] = useState("");
+  const navigate = useNavigate();
 
   const [success, setSuccess] = useState("");
+  useEffect(()=>{
+    document.body.style.overflow="hidden";
+    return()=>{
+      document.body.style.overflow="auto";
+    };
+  },[]);
 
-  /* ---------- FORMATTERS ---------- */
+ 
   const formatCardNumber = (value: string) =>
     value.replace(/\D/g, "").slice(0, 16).replace(/(.{4})/g, "$1 ").trim();
 
@@ -32,7 +48,7 @@ const PaymentPage: React.FC = () => {
     return `${digits.slice(0, 2)}/${digits.slice(2)}`;
   };
 
-  /* ---------- PAYABLE AMOUNT ---------- */
+
   const payableAmount =
     paymentMode === "credit"
       ? totalAmount * 0.9
@@ -40,7 +56,7 @@ const PaymentPage: React.FC = () => {
       ? totalAmount * 0.95
       : totalAmount;
 
-  /* ---------- VALIDATIONS ---------- */
+ 
   const handleCardChange = (value: string) => {
     const digits = value.replace(/\D/g, "").slice(0, 16);
     setCardNumber(digits);
@@ -88,31 +104,38 @@ const PaymentPage: React.FC = () => {
   };
 
   const handlePay = async () => {
-    if (!paymentMode || cardError || expiryError || cvvError || nameError) {
-      return;
-    }
-  
-    try {
-      const res = await api.post("/payments", {
+  if (!paymentMode || cardError || expiryError || cvvError || nameError) return;
+
+  try {
+    await api.post("/payments", {
+      bookingId,
+      mode: paymentMode.toUpperCase()
+    });
+
+    navigate("/ticket", {
+      state: {
         bookingId,
-        mode: paymentMode.toUpperCase() // CREDIT / DEBIT
-      });
-  
-      setSuccess("🎉 Payment Successful!");
-      setTimeout(() => {
-        window.location.href = "/my-bookings";
-      }, 2000);
-  
-    } catch (err: any) {
-      alert(err.response?.data?.message || "Payment failed");
-    }
-  };
+        amount: payableAmount,
+        movieName,
+        language,
+        theatreName,
+        theatreLocation,
+        showTime,
+        seats,
+      }
+    });
+
+  } catch (err: any) {
+    alert(err.response?.data?.message || "Payment failed");
+  }
+};
+
 
   return (
     <div className="payment-bg">
       <div className="payment-card">
 
-        {/* Header */}
+    
         <div className="payment-header mb-3">
           <h3 className="fw-bold mb-0">🔐 Secure Payment</h3>
           <div className="amount-inline">
@@ -120,7 +143,7 @@ const PaymentPage: React.FC = () => {
           </div>
         </div>
 
-        {/* Payment Mode */}
+      
         <div className="mb-3">
           <label className="fw-semibold">Choose Payment Method</label>
           <div className="d-flex gap-3 mt-2">
@@ -139,7 +162,7 @@ const PaymentPage: React.FC = () => {
           </div>
         </div>
 
-        {/* Card Number */}
+        
         <div className="mb-3">
           <label>Card Number</label>
           <input
@@ -152,7 +175,7 @@ const PaymentPage: React.FC = () => {
           <div className="invalid-feedback">{cardError}</div>
         </div>
 
-        {/* Expiry & CVV */}
+      
         <div className="row">
           <div className="col-md-6 mb-3">
             <label>Expiry (MM/YY)</label>
@@ -179,7 +202,7 @@ const PaymentPage: React.FC = () => {
           </div>
         </div>
 
-        {/* Name */}
+       
         <div className="mb-3">
           <label>Card Holder Name</label>
           <input
@@ -206,7 +229,3 @@ const PaymentPage: React.FC = () => {
 };
 
 export default PaymentPage;
-
-
-
-
