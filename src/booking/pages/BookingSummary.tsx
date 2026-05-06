@@ -1,6 +1,6 @@
 
 
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useMemo, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { SeatDTO, Show } from "../../common/utils/DTOs";
 import "./BookingSummary.css";
@@ -15,28 +15,30 @@ const BookingSummary:FC = () => {
   const navigate = useNavigate();
 
   const showId = Number(params.get("showId"));
-  const seatIds = params.get("seats")?.split(",").map(Number) || [];
-  console.log(showId, "  ->  " , seatIds);
+  const seatIds = useMemo(() => {
+  const seatsParam = params.get("seats");
+  return seatsParam ? seatsParam.split(",").map(Number) : [];
+}, [params]);
 
   const [show, setShow] = useState<Show | null>(null);
   const [seats, setSeats] = useState<SeatDTO[]>([]);
   const [error, setError] = useState("");
 
   useEffect(() => {
-    if (!showId || seatIds.length === 0) {
-      setError("Invalid booking details");
-      return;
-    }
+  if (!showId || seatIds.length === 0) {
+    setError("Invalid booking details");
+    return;
+  }
 
-    getBookingSummaryData(showId, seatIds)
-      .then((data) => {
-        setShow(data.show);
-        setSeats(data.seats);
-      })
-      .catch(() => {
-        setError("Failed to load booking summary");
-      });
-  }, [seatIds, showId]);
+  getBookingSummaryData(showId, seatIds)
+    .then((data) => {
+      setShow(data.show);
+      setSeats(data.seats);
+    })
+    .catch(() => {
+      setError("Failed to load booking summary");
+    });
+}, [seatIds, showId]);
 
   const getSeatPrice = (seatType: string) => {
     return seatType === "PREMIUM" ? 300 : 260;
@@ -58,7 +60,10 @@ const BookingSummary:FC = () => {
       seatIds
     });
     console.log(res.data.user.name);
-    if(show === null) return <h1>Show not found</h1>;
+    if (!show) {
+      alert("Show not found");
+      return;
+    }
     navigate("/payment", {
         
       state: {

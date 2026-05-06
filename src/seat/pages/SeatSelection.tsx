@@ -166,7 +166,7 @@ const handleProceed = async () => {
 
   // 3️⃣ CREATE BOOKING (🔥 MISSING PART – NOW ADDED)
   try {
-    const response = await api.post("/bookings", {
+    await api.post("/bookings", {
       showId: Number(showId),
       seatIds: seatIds
     });
