@@ -75,7 +75,7 @@ const Home: React.FC = () => {
       <div className="center-content">
         <div className="center-card">
           <img
-            src="LOGO.png"
+            src="/LOGO.png"
             alt="Cinema Logo"
             className="main-logo"
           />
