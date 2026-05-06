@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getMovieById, submitRating } from "../service/movieService";
 import { MovieDTO as Movie } from "../../common/utils/DTOs";
-import { isLoggedIn } from "../../common/utils/mockAuth";
+import { isAuthenticated } from "../../common/utils/mockAuth";
 import "./MovieDetails.css";
 
 const MovieDetails = () => {
@@ -13,8 +13,8 @@ const MovieDetails = () => {
   const navigate = useNavigate();
 
   const splitByComma = (value: string): string[] =>
-    value.split(",").map(v => v.trim());
-  
+    value.split(",").map((v) => v.trim());
+
   useEffect(() => {
     if (movieId) {
       getMovieById(Number(movieId)).then(setMovie);
@@ -22,31 +22,38 @@ const MovieDetails = () => {
   }, [movieId]);
 
   const handleStarClick = async (rating: number) => {
-    if (!isLoggedIn()) {
+    if (!isAuthenticated()) {
       navigate("/login");
       return;
     }
-    setSelectedRating(rating);
     await submitRating(Number(movieId), rating);
+    setSelectedRating(rating);
     alert("Thanks for rating!");
   };
 
   const handleBooking = () => {
-    if (!isLoggedIn()) {
-      navigate("/login");
-    } else {
-      navigate(`/shows/${movieId}`);
-    }
+    navigate(`/shows/${movieId}`);
   };
 
   if (!movie) return <div className="text-center mt-5">Loading...</div>;
+
+  // ✅ UPCOMING CHECK (existing logic, untouched)
+  const isUpcoming = (() => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const releaseDate = new Date(movie.releaseDate);
+    releaseDate.setHours(0, 0, 0, 0);
+
+    return releaseDate > today;
+  })();
 
   return (
     <div className="movie-details-wrapper">
       <div className="movie-details-container">
         <div className="main-content">
 
-          {/* LEFT: Poster + Rating bubble */}
+          {/* LEFT: Poster + Rating */}
           <div className="left-section">
             <div className="poster-box">
               <img
@@ -63,28 +70,41 @@ const MovieDetails = () => {
                     <svg
                       key={star}
                       className={`star-icon ${
-                        star <= (hoveredRating || selectedRating) ? "filled" : ""
-                      }`}
-                      onClick={() => handleStarClick(star)}
-                      onMouseEnter={() => setHoveredRating(star)}
-                      onMouseLeave={() => setHoveredRating(0)}
+                        star <= (hoveredRating || selectedRating)
+                          ? "filled"
+                          : ""
+                      } ${isUpcoming ? "disabled" : ""}`}
+                      onClick={() =>
+                        !isUpcoming && handleStarClick(star)
+                      }
+                      onMouseEnter={() =>
+                        !isUpcoming && setHoveredRating(star)
+                      }
+                      onMouseLeave={() =>
+                        !isUpcoming && setHoveredRating(0)
+                      }
                       viewBox="0 0 24 24"
                       xmlns="http://www.w3.org/2000/svg"
                     >
-                      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                      <path d="M12 2l3.0 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
                     </svg>
                   ))}
                 </div>
                 <div className="rating-tail"></div>
               </div>
-              <p className="rate-text">Rate the Movie</p>
+
+              <p className="rate-text">
+                {isUpcoming
+                  ? "Ratings open after release"
+                  : "Rate the Movie"}
+              </p>
             </div>
           </div>
 
-          {/* RIGHT: Details + Book button at bottom */}
+          {/* RIGHT: Details */}
           <div className="details-section">
             <h1 className="movie-title">{movie.name}</h1>
-            
+
             <div className="rating-display">
               ⭐ <span>{movie.averageRating.toFixed(1)}</span> / 5.0
             </div>
@@ -123,12 +143,19 @@ const MovieDetails = () => {
               </div>
             </div>
 
-            {/* Book button moved here — inside details-section */}
+            {/* ✅ BOOKING BLOCKED FOR UPCOMING */}
             <div className="booking-section">
-              <button className="book-btn" onClick={handleBooking}>
-                🎟️ Book Tickets
-              </button>
+              {!isUpcoming ? (
+                <button className="book-btn" onClick={handleBooking}>
+                  🎟️ Book Tickets
+                </button>
+              ) : (
+                <button className="book-btn disabled" disabled>
+                  ⏳ Coming Soon
+                </button>
+              )}
             </div>
+
           </div>
         </div>
       </div>

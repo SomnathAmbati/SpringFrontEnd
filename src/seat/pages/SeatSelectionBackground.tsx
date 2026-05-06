@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import { getSeatsByShow, getShowById } from "../service/seatingService";
 import { Show as ShowDTO, SeatDTO } from "../../common/utils/DTOs";
@@ -173,3 +174,5 @@ const SeatSelectionBackground = ({ showId, requiredSeats }: SeatSelectionBackgro
 };
 
 export default SeatSelectionBackground;
+
+

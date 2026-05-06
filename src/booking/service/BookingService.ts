@@ -1,3 +1,6 @@
+
+
+import axios from "axios";
 import { Show, SeatDTO } from "../../common/utils/DTOs";
 import api from "../../common/utils/api";
 
@@ -18,3 +21,4 @@ export const getBookingSummaryData = async (
     seats: seatsRes.data
   };
 };
+

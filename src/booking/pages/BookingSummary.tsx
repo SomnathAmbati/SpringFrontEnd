@@ -1,3 +1,5 @@
+
+
 import { FC, useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { SeatDTO, Show } from "../../common/utils/DTOs";
@@ -55,6 +57,7 @@ const BookingSummary:FC = () => {
       showId,
       seatIds
     });
+    console.log(res.data.user.name);
     if(show === null) return <h1>Show not found</h1>;
     navigate("/payment", {
         
@@ -68,6 +71,7 @@ const BookingSummary:FC = () => {
         theatreLocation: show.theatre.location,
         showTime: show.showTime,
         seats: seats.map(s => s.seatNumber).join(", "),
+        userName: res.data.user.name,
       }
     });
   } catch (err) {
@@ -145,6 +149,5 @@ const BookingSummary:FC = () => {
 };
 
 export default BookingSummary;
-
 
 

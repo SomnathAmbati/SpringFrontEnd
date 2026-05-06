@@ -24,11 +24,23 @@ export interface MovieDTO {
   releaseDate: string; // ISO date string
   censorRating: CensorRating;
   averageRating: number;
+  totalRatings: number;
 }
-
 export interface Show {
   id: number;
   movie: MovieDTO;
   theatre: TheatreDTO;
   showTime: string;
 }
+
+export interface ReponseDTO {
+    success: boolean;
+    message: string;
+    data: any;
+}
+
+
+
+
+
+

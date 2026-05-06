@@ -1,3 +1,6 @@
+
+
+
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { getSeatsByShow } from "../service/seatingService";
@@ -73,7 +76,8 @@ const SeatCountModal = ({ showId, movieId, onClose, onProceed }: SeatCountModalP
   };
 
   const handleBookOtherShow = () => {
-    navigate(`/movies/${movieId}`);
+    // navigate(`/movies/${movieId}`);
+    onClose();
   };
 
   const getSeatTypeStats = () => {
@@ -148,7 +152,7 @@ const SeatCountModal = ({ showId, movieId, onClose, onProceed }: SeatCountModalP
                 value={seatCount}
                 onChange={handleInputChange}
                 placeholder="Enter number"
-                maxLength={2}
+                maxLength={3}
                 disabled={availableSeatsCount === 0}
               />
               <div className="available-info">

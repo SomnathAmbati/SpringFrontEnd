@@ -1,0 +1,36 @@
+.booking-history-container {
+    max-width: 1200px;
+  }
+  
+  .booking-card {
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .booking-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+  }
+  
+  .booking-movie-img {
+    height: 220px;
+    object-fit: contain;
+  }
+  
+  .status-badge {
+    width: fit-content;
+    font-size: 0.75rem;
+    padding: 6px 10px;
+    border-radius: 20px;
+  }
+  
+  .empty-bookings {
+    color: #666;
+  }
+  
+  @media (max-width: 768px) {
+    .booking-movie-img {
+      height: 180px;
+    }
+  }

@@ -1,8 +1,11 @@
+
 import { useEffect, useState } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { getSeatsByShow, getShowById } from "../service/seatingService";
 import { Show as ShowDTO, SeatDTO } from "../../common/utils/DTOs";
 import "./SeatSelection.css";
+import { isAuthenticated } from "../../common/utils/mockAuth";
+import api from "../../common/utils/api";
 
 const SeatSelection = () => {
   const { showId } = useParams();
@@ -66,7 +69,9 @@ const SeatSelection = () => {
     } else {
       // Check if we can select more seats
       if (requiredSeats > 0 && selectedSeats.length >= requiredSeats) {
-        setWarningMessage(`You can only select ${requiredSeats} ${requiredSeats === 1 ? 'seat' : 'seats'}. Please deselect a seat first.`);
+        setWarningMessage(`You can only select ${requiredSeats}
+           ${requiredSeats === 1?
+        'seat' : 'seats'}. Please deselect a seat first.`);
         setWarningType("exceed");
         setShowWarning(true);
         return;
@@ -100,23 +105,89 @@ const SeatSelection = () => {
       return total + getSeatPrice(seat.seatType);
     }, 0);
   };
+// const handleProceed = () => {
+//   // 1️⃣ seat count validation
+//   if (requiredSeats > 0 && selectedSeats.length < requiredSeats) {
+//     setWarningMessage(
+//       `Please select ${requiredSeats} ${requiredSeats === 1 ? "seat" : "seats"}.`
+//     );
+//     setWarningType("less");
+//     setShowWarning(true);
+//     return;
+//   }
 
-  const handleProceed = () => {
-    // Check if correct number of seats selected
-    if (requiredSeats > 0 && selectedSeats.length < requiredSeats) {
-      setWarningMessage(`Please select ${requiredSeats} ${requiredSeats === 1 ? 'seat' : 'seats'}. You have only selected ${selectedSeats.length}.`);
-      setWarningType("less");
-      setShowWarning(true);
-      return;
-    }
+//   if (selectedSeats.length === 0) return;
 
-    if (selectedSeats.length > 0) {
-      // Navigate to booking summary with selected seats
-      const seatIds = selectedSeats.map(s => s.id).join(',');
-      navigate(`/booking/summary?showId=${showId}&seats=${seatIds}`);
-    }
-  };
+//   const seatIds = selectedSeats.map(s => s.id).join(",");
 
+//   // 2️⃣ NOT LOGGED IN → LOGIN FIRST
+//   if (!isAuthenticated()) {
+//     navigate("/login", {
+//       state: {
+//         redirectTo: location.pathname,
+//         intent: "payment",          // 🔑 VERY IMPORTANT
+//         seatIds,
+//         showId,
+//       },
+//     });
+//     return;
+//   }
+
+//   // 3️⃣ LOGGED IN → PAYMENT
+//   navigate(`/payment?showId=${showId}&seats=${seatIds}`);
+// };
+
+const handleProceed = async () => {
+  // 1️⃣ seat count validation (UNCHANGED)
+  if (requiredSeats > 0 && selectedSeats.length < requiredSeats) {
+    setWarningMessage(
+      `Please select ${requiredSeats} ${requiredSeats === 1 ? "seat" : "seats"}.`
+    );
+    setWarningType("less");
+    setShowWarning(true);
+    return;
+  }
+
+  if (selectedSeats.length === 0) return;
+
+  const seatIds = selectedSeats.map(s => s.id);
+
+  // 2️⃣ NOT LOGGED IN → LOGIN FIRST (UNCHANGED)
+  if (!isAuthenticated()) {
+    navigate("/login", {
+      state: {
+        intent:"booking",
+        seatIds,
+        showId,
+      },
+    });
+    return;
+  }
+
+  // 3️⃣ CREATE BOOKING (🔥 MISSING PART – NOW ADDED)
+  try {
+    const response = await api.post("/bookings", {
+      showId: Number(showId),
+      seatIds: seatIds
+    });
+
+    const bookingId = response.data.id;
+    const totalAmount = response.data.totalAmount;
+
+    // 4️⃣ MOVE TO PAYMENT (same UI, new data)
+    // navigate("/payment", {
+    //   state: {
+    //     bookingId,
+    //     totalAmount
+    //   }
+    // });
+    navigate(`/booking-summary?showId=${showId}&seats=${seatIds.join(",")}`);
+
+  } catch (err) {
+    console.error("Booking failed", err);
+    alert("Booking failed. Please try again.");
+  }
+};
   const closeWarning = () => {
     setShowWarning(false);
   };
@@ -316,3 +387,4 @@ const SeatSelection = () => {
 };
 
 export default SeatSelection;
+
