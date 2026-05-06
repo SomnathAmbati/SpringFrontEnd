@@ -1,5 +1,5 @@
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { getSeatsByShow, getShowById } from "../service/seatingService";
 import { Show as ShowDTO, SeatDTO } from "../../common/utils/DTOs";
 import "./SeatSelectionBackground.css";
@@ -14,11 +14,9 @@ const SeatSelectionBackground = ({ showId, requiredSeats }: SeatSelectionBackgro
   const [seats, setSeats] = useState<SeatDTO[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    loadShowAndSeats();
-  }, [showId]);
+  
 
-  const loadShowAndSeats = async () => {
+  const loadShowAndSeats = useCallback(async () => {
     try {
       setLoading(true);
       const [showData, seatsData] = await Promise.all([
@@ -32,7 +30,11 @@ const SeatSelectionBackground = ({ showId, requiredSeats }: SeatSelectionBackgro
       console.error("Error loading seats:", error);
       setLoading(false);
     }
-  };
+  }, [showId]);
+  
+  useEffect(() => {
+    loadShowAndSeats();
+  }, [loadShowAndSeats, showId]);
 
   // Group seats by row
   const groupedSeats = seats.reduce((acc, seat) => {

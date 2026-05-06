@@ -1,5 +1,5 @@
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { getSeatsByShow, getShowById } from "../service/seatingService";
 import { Show as ShowDTO, SeatDTO } from "../../common/utils/DTOs";
@@ -21,18 +21,7 @@ const SeatSelection = () => {
   const [warningMessage, setWarningMessage] = useState("");
   const [warningType, setWarningType] = useState<"exceed" | "less">("exceed");
 
-  useEffect(() => {
-    if (!showId) return;
-    
-    // Get required seats from navigation state or localStorage
-    const state = location.state as { requiredSeats?: number };
-    const required = state?.requiredSeats || parseInt(localStorage.getItem(`requiredSeats_${showId}`) || "0");
-    setRequiredSeats(required);
-    
-    loadShowAndSeats();
-  }, [showId]);
-
-  const loadShowAndSeats = async () => {
+  const loadShowAndSeats = useCallback(async () => {
     try {
       setLoading(true);
       const [showData, seatsData] = await Promise.all([
@@ -46,7 +35,18 @@ const SeatSelection = () => {
       console.error("Error loading seats:", error);
       setLoading(false);
     }
-  };
+  }, [showId]);
+
+  useEffect(() => {
+    if (!showId) return;
+    
+    // Get required seats from navigation state or localStorage
+    const state = location.state as { requiredSeats?: number };
+    const required = state?.requiredSeats || parseInt(localStorage.getItem(`requiredSeats_${showId}`) || "0");
+    setRequiredSeats(required);
+    
+    loadShowAndSeats();
+  }, [loadShowAndSeats, location.state, showId]);
 
   // Group seats by row
   const groupedSeats = seats.reduce((acc, seat) => {
@@ -171,8 +171,8 @@ const handleProceed = async () => {
       seatIds: seatIds
     });
 
-    const bookingId = response.data.id;
-    const totalAmount = response.data.totalAmount;
+    // const bookingId = response.data.id;
+    // const totalAmount = response.data.totalAmount;
 
     // 4️⃣ MOVE TO PAYMENT (same UI, new data)
     // navigate("/payment", {

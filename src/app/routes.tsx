@@ -1,22 +1,19 @@
-import { Routes, Route, BrowserRouter, Navigate } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 // import GuestRoute from "../common/components/GuestRoute";
-import MovieList from "../movie/pages/MovieList";
-import MovieDetails from "../movie/pages/MovieDetails";
-import ShowSelection from "../show/pages/ShowSelection";
-import SeatSelection from "../seat/pages/SeatSelection";
-import BookingSummary from "../booking/pages/BookingSummary";
-import PaymentPage from "../payment/pages/PaymentPage";
 import BookingHistory from "../booking/pages/BookingHistory";
+import BookingSummary from "../booking/pages/BookingSummary";
+import MovieDetails from "../movie/pages/MovieDetails";
+import MovieList from "../movie/pages/MovieList";
+import PaymentPage from "../payment/pages/PaymentPage";
+import SeatSelection from "../seat/pages/SeatSelection";
+import ShowSelection from "../show/pages/ShowSelection";
 // import Login from "./Login";
 
-import SeatSelectionBackground from "../seat/pages/SeatSelectionBackground";
 
-import ProtectedRoute from "../common/components/ProtectedRoute";
-import { isAuthenticated } from "../common/utils/mockAuth";
 
-import Login from "./Login";
-import Home from "./Home";
 import Ticket from "../payment/pages/Ticket";
+import Home from "./Home";
+import Login from "./Login";
 
 export default function AppRoutes() {
   return ( 

@@ -1,8 +1,7 @@
 
 
 
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect, useCallback } from "react";
 import { getSeatsByShow } from "../service/seatingService";
 import { SeatDTO } from "../../common/utils/DTOs";
 import "./SeatCountModal.css";
@@ -15,39 +14,38 @@ interface SeatCountModalProps {
 }
 
 const SeatCountModal = ({ showId, movieId, onClose, onProceed }: SeatCountModalProps) => {
-  const navigate = useNavigate();
   const [seatCount, setSeatCount] = useState("");
   const [seats, setSeats] = useState<SeatDTO[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [availableSeatsCount, setAvailableSeatsCount] = useState(0);
 
+  
+
+  const loadSeats = useCallback(async () => {
+  try {
+    setLoading(true);
+    setError(null);
+    const seatsData = await getSeatsByShow(showId);
+    setSeats(seatsData);
+
+    const available = seatsData.filter(seat => seat.status === "AVAILABLE").length;
+    setAvailableSeatsCount(available);
+
+    if (available === 0) {
+      setError("All seats are booked for this show. Please select another show time.");
+    }
+
+    setLoading(false);
+  } catch (err) {
+    setError("Failed to load seat information. Please try again.");
+    setLoading(false);
+  }
+}, [showId]);
+
   useEffect(() => {
     loadSeats();
-  }, [showId]);
-
-  const loadSeats = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      const seatsData = await getSeatsByShow(showId);
-      setSeats(seatsData);
-      
-      // Count available seats
-      const available = seatsData.filter(seat => seat.status === "AVAILABLE").length;
-      setAvailableSeatsCount(available);
-      
-      // Check if all seats are booked
-      if (available === 0) {
-        setError("All seats are booked for this show. Please select another show time.");
-      }
-      
-      setLoading(false);
-    } catch (err) {
-      setError("Failed to load seat information. Please try again.");
-      setLoading(false);
-    }
-  };
+  }, [loadSeats]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;

@@ -343,6 +343,7 @@ const PaymentPage: React.FC = () => {
         bookingId,
         mode: paymentMode.toUpperCase()
       });
+      setSuccess("🎉 Payment Successful!");
   
       navigate("/ticket", {
         state: {

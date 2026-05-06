@@ -1,6 +1,5 @@
 
 
-import axios from "axios";
 import { Show, SeatDTO } from "../../common/utils/DTOs";
 import api from "../../common/utils/api";
 

@@ -1,12 +1,11 @@
 
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { getMovieSummary, getShowsByMovie } from "../service/showService";
 import { MovieDTO as MovieSummary, Show } from "../../common/utils/DTOs";
-import "./ShowSelection.css";
 import SeatCountModal from "../../seat/pages/SeatCountModal";
-import SeatSelection from "../../seat/pages/SeatSelection";
 import SeatSelectionBackground from "../../seat/pages/SeatSelectionBackground";
+import { getMovieSummary, getShowsByMovie } from "../service/showService";
+import "./ShowSelection.css";
 
 
 const ShowSelection = () => {

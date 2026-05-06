@@ -36,7 +36,7 @@ const BookingSummary:FC = () => {
       .catch(() => {
         setError("Failed to load booking summary");
       });
-  }, []);
+  }, [seatIds, showId]);
 
   const getSeatPrice = (seatType: string) => {
     return seatType === "PREMIUM" ? 300 : 260;
